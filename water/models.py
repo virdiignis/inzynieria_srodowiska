@@ -20,3 +20,22 @@ class StationState(models.Model):
     manual_steering_user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
     timestamp = models.TimeField()
+
+class Container(models.Model):
+    station = models.ForeignKey(Station, related_name="containers", on_delete=models.CASCADE)
+    container_id = models.PositiveIntegerField()
+    # MAX MIN ?
+
+# LOG
+class ContainerState(models.Model):
+    container = models.ForeignKey(Container, related_name="container", on_delete=models.CASCADE)
+    container_state = models.PositiveIntegerField()
+    time_stamp = models.ForeignKey(Station
+
+class Valve(models.Model):
+    station = models.ForeignKey(Station, related_name="valves", on_delete=models.CASCADE)
+    valve_id = models.PositiveIntegerField()
+
+class ValveState(models.Model):
+    valve = models.ForeignKey(Valve, related_name="valve", on_delete=models.CASCADE)
+    valve_state = models.BooleanField()

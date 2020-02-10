@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import JSONField
 from django.db import models
 
 
@@ -32,10 +33,18 @@ class ContainerState(models.Model):
     container_state = models.PositiveIntegerField()
     time_stamp = models.ForeignKey(Station
 
+
 class Valve(models.Model):
     station = models.ForeignKey(Station, related_name="valves", on_delete=models.CASCADE)
     valve_id = models.PositiveIntegerField()
 
+
 class ValveState(models.Model):
     valve = models.ForeignKey(Valve, related_name="valve", on_delete=models.CASCADE)
     valve_state = models.BooleanField()
+
+
+class Order(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    station = models.ForeignKey(Station, related_name="orders", on_delete=models.CASCADE)
+    order = JSONField()

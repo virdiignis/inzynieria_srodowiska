@@ -31,7 +31,7 @@ class Container(models.Model):
 
 # LOG
 class ContainerState(models.Model):
-    container = models.ForeignKey(Container, related_name="container", on_delete=models.CASCADE)
+    container = models.ForeignKey(Container, related_name="log", on_delete=models.CASCADE)
     container_state = models.PositiveIntegerField()
     station_state = models.ForeignKey(StationState, related_name="containers", on_delete=models.CASCADE)
 
@@ -42,19 +42,19 @@ class Valve(models.Model):
 
 
 class ValveState(models.Model):
-    valve = models.ForeignKey(Valve, related_name="valves", on_delete=models.CASCADE)
+    valve = models.ForeignKey(Valve, related_name="log", on_delete=models.CASCADE)
     valve_state = models.BooleanField()
     station_state = models.ForeignKey(StationState, related_name="valves", on_delete=models.CASCADE)
 
 
 class Pump(models.Model):
     station = models.ForeignKey(Station, related_name="pumps", on_delete=models.CASCADE)
-    valve_id = models.PositiveIntegerField()
+    pump_id = models.PositiveIntegerField()
 
 
 class PumpState(models.Model):
-    valve = models.ForeignKey(Pump, related_name="pumps", on_delete=models.CASCADE)
-    valve_state = models.BooleanField()
+    pump = models.ForeignKey(Pump, related_name="log", on_delete=models.CASCADE)
+    pump_state = models.BooleanField()
     station_state = models.ForeignKey(StationState, related_name="pumps", on_delete=models.CASCADE)
 
 

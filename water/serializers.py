@@ -19,8 +19,8 @@ class ValveSerializer(serializers.ModelSerializer):
 
 class ValveStateSerializer(serializers.ModelSerializer):
     valve = ValveSerializer()
-    station_state = serializers.SlugRelatedField(read_only=True, slug_field='timestamp')
+    timestamp = serializers.SlugRelatedField(read_only=True, slug_field='timestamp', source='station_state')
 
     class Meta:
         model = models.ValveState
-        fields = ['valve_state', 'station_state']
+        fields = ['valve_state', 'timestamp']

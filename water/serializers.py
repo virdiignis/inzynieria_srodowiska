@@ -24,3 +24,12 @@ class ValveStateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ValveState
         fields = ['valve_state', 'timestamp']
+
+
+class ContainerSerializer(serializers.ModelSerializer):
+    station = StationSerializer()
+
+    class Meta:
+        model = models.Container
+        fields = "__all__"
+

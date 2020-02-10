@@ -57,5 +57,5 @@ class PumpStateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.ContainerState
-        fields = ['pump_state','pump', 'timestamp']
+        fields = ['pump_state', 'pump', 'timestamp']
 

@@ -23,4 +23,4 @@ class ValveStateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.ValveState
-        fields = ['valve_state', 'timestamp']
+        fields = ['valve_state', 'valve', 'timestamp']

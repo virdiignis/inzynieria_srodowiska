@@ -17,7 +17,10 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 
+from water import views
+
 router = routers.DefaultRouter()
+router.register(r'water/(?P<station_id>\d+)/valve/(?P<valve_id>\d+)', views.ValveStateViewSet, basename='valve')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

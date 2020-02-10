@@ -22,17 +22,18 @@ class StationState(models.Model):
 
     timestamp = models.TimeField()
 
+
 class Container(models.Model):
     station = models.ForeignKey(Station, related_name="containers", on_delete=models.CASCADE)
     container_id = models.PositiveIntegerField()
     # MAX MIN ?
+
 
 # LOG
 class ContainerState(models.Model):
     container = models.ForeignKey(Container, related_name="container", on_delete=models.CASCADE)
     container_state = models.PositiveIntegerField()
     station_state = models.ForeignKey(StationState, related_name="containers", on_delete=models.CASCADE)
-
 
 
 class Valve(models.Model):

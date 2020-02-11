@@ -1,0 +1,14 @@
+PUT http://localhost:8000/water/1/stats/
+Content-Type: application/json
+
+{
+    "steering_state" : "OF",
+    "timestamp" :"1583100721",
+    "valves" : [ {"valve_id":"1", "valve_state":"True"}],
+    "containers": [ {"container_id":"1", "container_state":"20"}],
+    "pumps" : [  {"pump_id":1, "pump_state":"True"}]
+}
+
+
+
+###

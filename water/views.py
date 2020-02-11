@@ -4,6 +4,7 @@ from water.models import ValveState, ContainerState, PumpState, StationState
 from water.serializers import ValveStateSerializer, ContainerStateSerializer, PumpStateSerializer
 import json
 
+
 class ValveStateViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ValveStateSerializer
 
@@ -42,8 +43,8 @@ def receive_water_data(request, station_id):
         timestamp = request_data.get("timestamp")
 
         if steering_state is None:
-            # TODO: odpytanie bazy
-            pass
+            steering_state = StationState.objects.filter(station_id=station_id).order_by(
+                "timestamp").last().steering_state
 
         station_state = StationState.objects.create(
             station_id=station_id,
@@ -55,7 +56,6 @@ def receive_water_data(request, station_id):
         containers = request_data.get("containers")
         pump = request_data.get("pump")
 
-        # TODO: czy station w ten sposób może być?
         for x in valves:
             ValveState.objects.create(
                 valve_id=x.get("valve_id"),
@@ -76,7 +76,3 @@ def receive_water_data(request, station_id):
                 pump_state=x.get("pump_state"),
                 station_state=station_state
             )
-
-
-
-

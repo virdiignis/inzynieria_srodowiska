@@ -20,9 +20,18 @@ from rest_framework import routers
 from water import views
 
 router = routers.DefaultRouter()
-router.register(r'water/(?P<station_id>\d+)/valve/(?P<valve_id>\d+)', views.ValveStateViewSet, basename='valve')
-router.register(r'water/(?P<station_id>\d+)/container/(?P<container_id>\d+)', views.ContainerStateViewSet, basename='container')
-router.register(r'water/(?P<station_id>\d+)/pump/(?P<pump_id>\d+)', views.PumpStateViewSet, basename='pump')
+router.register(r'water/(?P<station_id>\d+)/valves', views.ValveViewSet, basename='valves')
+router.register(r'water/(?P<station_id>\d+)/valve/(?P<valve_id>\d+)', views.ValveViewSet, basename='valve')
+router.register(r'water/(?P<station_id>\d+)/valve/(?P<valve_id>\d+)/log', views.ValveStateViewSet,
+                basename='valve_log')
+router.register(r'water/(?P<station_id>\d+)/containers', views.ContainerViewSet, basename='containers')
+router.register(r'water/(?P<station_id>\d+)/container/(?P<container_id>\d+)', views.ContainerViewSet,
+                basename='container')
+router.register(r'water/(?P<station_id>\d+)/container/(?P<container_id>\d+)/log', views.ContainerStateViewSet,
+                basename='container_log')
+router.register(r'water/(?P<station_id>\d+)/pumps', views.PumpViewSet, basename='pumps')
+router.register(r'water/(?P<station_id>\d+)/pump/(?P<pump_id>\d+)', views.PumpViewSet, basename='pump')
+router.register(r'water/(?P<station_id>\d+)/pump/(?P<pump_id>\d+/log)', views.PumpStateViewSet, basename='pump_log')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

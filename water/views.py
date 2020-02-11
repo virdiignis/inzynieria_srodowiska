@@ -6,7 +6,7 @@ from rest_framework import viewsets
 from water.models import Valve, Container, Pump
 from water.models import ValveState, ContainerState, PumpState, StationState
 from water.serializers import ValveSerializer, \
-    ContainerSerializer
+    ContainerSerializer, PumpSerializer
 from water.serializers import ValveStateSerializer, ContainerStateSerializer, PumpStateSerializer
 
 
@@ -62,7 +62,7 @@ class ContainerStateViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class PumpViewSet(viewsets.ModelViewSet):
-    serializer_class = ContainerSerializer
+    serializer_class = PumpSerializer
 
     def get_queryset(self):
         return Pump.objects.filter(**self.kwargs).all()

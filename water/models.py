@@ -17,7 +17,7 @@ class StationState(models.Model):
     steering_state = models.CharField(max_length=2, choices=steering_states, default="AU")
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     manual_steering_user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    timestamp = models.TimeField()
+    timestamp = models.DateTimeField(auto_now_add=True)
 
 
 class Container(models.Model):

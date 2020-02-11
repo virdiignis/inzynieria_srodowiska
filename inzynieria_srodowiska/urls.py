@@ -21,6 +21,8 @@ from water import views
 
 router = routers.DefaultRouter()
 router.register(r'water/(?P<station_id>\d+)/valve/(?P<valve_id>\d+)', views.ValveStateViewSet, basename='valve')
+router.register(r'water/(?P<station_id>\d+)/container/(?P<container_id>\d+)', views.ContainerStateViewSet, basename='container')
+router.register(r'water/(?P<station_id>\d+)/pump/(?P<pump_id>\d+)', views.PumpStateViewSet, basename='pump')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

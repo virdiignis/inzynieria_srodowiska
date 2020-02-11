@@ -109,24 +109,24 @@ def receive_water_data(request, station_id):
         containers = request_data.get("containers")
         pumps = request_data.get("pumps")
 
-        for x in valves:
+        for valve in valves:
             ValveState.objects.create(
-                valve_id=x.get("valve_id"),
-                valve_state=x.get("valve_state"),
+                valve_id=valve.get("valve_id"),
+                valve_state=valve.get("valve_state"),
                 station_state=station_state
             )
 
-        for x in containers:
+        for container in containers:
             ContainerState.objects.create(
-                container_id=x.get("container_id"),
-                container_state=x.get("container_state"),
+                container_id=container.get("container_id"),
+                container_state=container.get("container_state"),
                 station_state=station_state
             )
 
-        for x in pumps:
+        for pump in pumps:
             PumpState.objects.create(
-                pump_id=x.get("pump_id"),
-                pump_state=x.get("pump_state"),
+                pump_id=pump.get("pump_id"),
+                pump_state=pump.get("pump_state"),
                 station_state=station_state
             )
 

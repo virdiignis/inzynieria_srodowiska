@@ -1,11 +1,13 @@
-from rest_framework import viewsets
-from water.models import ValveState, ContainerState, PumpState, Valve, Container, Pump
-from water.serializers import ValveStateSerializer, ContainerStateSerializer, PumpStateSerializer, ValveSerializer, \
-    ContainerSerializer
-from django.http import HttpResponse
-from water.models import ValveState, ContainerState, PumpState, StationState
-from water.serializers import ValveStateSerializer, ContainerStateSerializer, PumpStateSerializer
 import json
+
+from django.http import HttpResponse
+from rest_framework import viewsets
+
+from water.models import Valve, Container, Pump
+from water.models import ValveState, ContainerState, PumpState, StationState
+from water.serializers import ValveSerializer, \
+    ContainerSerializer
+from water.serializers import ValveStateSerializer, ContainerStateSerializer, PumpStateSerializer
 
 
 class ValveViewSet(viewsets.ModelViewSet):
@@ -105,7 +107,7 @@ def receive_water_data(request, station_id):
 
         valves = request_data.get("valves")
         containers = request_data.get("containers")
-        pump = request_data.get("pump")
+        pumps = request_data.get("pumps")
 
         for x in valves:
             ValveState.objects.create(
@@ -121,9 +123,11 @@ def receive_water_data(request, station_id):
                 station_state=station_state
             )
 
-        for x in pump:
+        for x in pumps:
             PumpState.objects.create(
                 pump_id=x.get("pump_id"),
                 pump_state=x.get("pump_state"),
                 station_state=station_state
             )
+
+        return HttpResponse()

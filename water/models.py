@@ -12,6 +12,7 @@ class StationState(models.Model):
         ("AU", "Automatic"),
         ("RM", "Remote Manual"),
         ("LM", "Local Manual"),
+        ("ID", "Idle"),
         ("OF", "OFF"),
     )
     steering_state = models.CharField(max_length=2, choices=steering_states, default="AU")

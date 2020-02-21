@@ -94,7 +94,7 @@ class PumpStateViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 def receive_water_data(request, station_id):
-    if request.method == 'PUT':
+    if request.method == 'POST':
         # TODO: try/except
 
         request_data = json.loads(request.body)

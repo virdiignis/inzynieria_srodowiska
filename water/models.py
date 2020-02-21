@@ -41,7 +41,7 @@ class Valve(models.Model):
 
 class ValveState(models.Model):
     valve = models.ForeignKey(Valve, related_name="log", on_delete=models.CASCADE)
-    valve_state = models.BooleanField()
+    valve_open = models.BooleanField()
     station_state = models.ForeignKey(StationState, related_name="valves", on_delete=models.CASCADE)
 
 

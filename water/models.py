@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import JSONField
 from django.db import models
+from inzynieria_srodowiska import settings
 
 
 class Station(models.Model):
@@ -8,13 +9,7 @@ class Station(models.Model):
 
 
 class StationState(models.Model):
-    steering_states = (
-        ("AU", "Automatic"),
-        ("RM", "Remote Manual"),
-        ("LM", "Local Manual"),
-        ("ID", "Idle"),
-        ("OF", "OFF"),
-    )
+    steering_states = settings.steering_states
     steering_state = models.CharField(max_length=2, choices=steering_states, default="AU")
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     manual_steering_user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)

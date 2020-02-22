@@ -8,6 +8,7 @@ from water.models import ValveState, ContainerState, PumpState, StationState
 from water.serializers import ValveSerializer, \
     ContainerSerializer, PumpSerializer
 from water.serializers import ValveStateSerializer, ContainerStateSerializer, PumpStateSerializer, StationSerializer
+from inzynieria_srodowiska import settings
 
 
 class StationViewSet(viewsets.ModelViewSet):
@@ -138,3 +139,10 @@ def receive_water_data(request, station_id):
             )
 
         return HttpResponse()
+
+
+def get_steering_states(request):
+    if request.method == 'GET':
+        print(json.dumps(dict(settings.steering_states)))
+        return HttpResponse(json.dumps(dict(settings.steering_states)),
+                            content_type='application/javascript; charset=utf8')

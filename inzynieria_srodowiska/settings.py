@@ -125,3 +125,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+steering_states = (
+        ("AU", "Automatic"),
+        ("RM", "Remote Manual"),
+        ("LM", "Local Manual"),
+        ("ID", "Idle"),
+        ("OF", "OFF"),
+    )

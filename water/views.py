@@ -40,7 +40,8 @@ class ValveStateViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         station_id = self.kwargs['station_id']
         valve_id = self.kwargs['valve_id']
-        return ValveState.objects.filter(station_state__station_id=station_id, valve__valve_id=valve_id).all()
+        return ValveState.objects.filter(station_state__station_id=station_id, valve__valve_id=valve_id).order_by(
+            "-station_state__timestamp", "-id").all()
 
 
 class ContainerViewSet(viewsets.ModelViewSet):
@@ -66,7 +67,8 @@ class ContainerStateViewSet(viewsets.ReadOnlyModelViewSet):
         station_id = self.kwargs['station_id']
         container_id = self.kwargs['container_id']
         return ContainerState.objects.filter(station_state__station_id=station_id,
-                                             container__container_id=container_id).all()
+                                             container__container_id=container_id).order_by(
+            "-station_state__timestamp", "-id").all()
 
 
 class PumpViewSet(viewsets.ModelViewSet):
@@ -91,7 +93,8 @@ class PumpStateViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         station_id = self.kwargs['station_id']
         pump_id = self.kwargs['pump_id']
-        return PumpState.objects.filter(station_state__station_id=station_id, pump__pump_id=pump_id).all()
+        return PumpState.objects.filter(station_state__station_id=station_id, pump__pump_id=pump_id).order_by(
+            "-station_state__timestamp", "-id").all()
 
 
 def receive_water_data(request, station_id):

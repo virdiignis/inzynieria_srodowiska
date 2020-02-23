@@ -1,0 +1,111 @@
+GET http://127.0.0.1:8000/water/0/states
+Accept: application/json
+
+###
+#{
+#    "count": 16,
+#    "next": "http://127.0.0.1:8000/water/0/states/?page=2",
+#    "previous": null,
+#    "results": [
+#        {
+#            "id": 20,
+#            "station": {
+#                "id": 0,
+#                "descriptive_location": "main location"
+#            },
+#            "steering_state": "OF",
+#            "timestamp": "2020-02-23T22:00:34.492015+01:00",
+#            "manual_steering_user": null
+#        },
+#        {
+#            "id": 19,
+#            "station": {
+#                "id": 0,
+#                "descriptive_location": "main location"
+#            },
+#            "steering_state": "OF",
+#            "timestamp": "2020-02-23T22:00:30.807322+01:00",
+#            "manual_steering_user": null
+#        },
+#        {
+#            "id": 18,
+#            "station": {
+#                "id": 0,
+#                "descriptive_location": "main location"
+#            },
+#            "steering_state": "OF",
+#            "timestamp": "2020-02-23T22:00:02.683781+01:00",
+#            "manual_steering_user": null
+#        },
+#        {
+#            "id": 14,
+#            "station": {
+#                "id": 0,
+#                "descriptive_location": "main location"
+#            },
+#            "steering_state": "AU",
+#            "timestamp": "2020-02-23T20:39:41.573107+01:00",
+#            "manual_steering_user": null
+#        },
+#        {
+#            "id": 13,
+#            "station": {
+#                "id": 0,
+#                "descriptive_location": "main location"
+#            },
+#            "steering_state": "AU",
+#            "timestamp": "2020-02-23T20:36:41.208955+01:00",
+#            "manual_steering_user": null
+#        },
+#        {
+#            "id": 12,
+#            "station": {
+#                "id": 0,
+#                "descriptive_location": "main location"
+#            },
+#            "steering_state": "AU",
+#            "timestamp": "2020-02-23T20:36:34.691965+01:00",
+#            "manual_steering_user": null
+#        },
+#        {
+#            "id": 11,
+#            "station": {
+#                "id": 0,
+#                "descriptive_location": "main location"
+#            },
+#            "steering_state": "OF",
+#            "timestamp": "2020-02-23T20:36:17.916495+01:00",
+#            "manual_steering_user": null
+#        },
+#        {
+#            "id": 10,
+#            "station": {
+#                "id": 0,
+#                "descriptive_location": "main location"
+#            },
+#            "steering_state": "OF",
+#            "timestamp": "2020-02-23T20:36:13.015063+01:00",
+#            "manual_steering_user": null
+#        },
+#        {
+#            "id": 9,
+#            "station": {
+#                "id": 0,
+#                "descriptive_location": "main location"
+#            },
+#            "steering_state": "OF",
+#            "timestamp": "2020-02-23T20:33:30.098138+01:00",
+#            "manual_steering_user": null
+#        },
+#        {
+#            "id": 8,
+#            "station": {
+#                "id": 0,
+#                "descriptive_location": "main location"
+#            },
+#            "steering_state": "OF",
+#            "timestamp": "2020-02-23T20:30:25.791853+01:00",
+#            "manual_steering_user": null
+#        }
+#    ]
+#}

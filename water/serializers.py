@@ -52,10 +52,8 @@ class PumpSerializer(serializers.ModelSerializer):
 
 
 class PumpStateSerializer(serializers.ModelSerializer):
-    pump = PumpSerializer()
     timestamp = serializers.SlugRelatedField(read_only=True, slug_field='timestamp', source='station_state')
 
     class Meta:
         model = models.PumpState
-        fields = ['pump_state', 'pump', 'timestamp']
-
+        fields = ['pump_state', 'timestamp']

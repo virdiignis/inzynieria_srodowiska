@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from inzynieria_srodowiska.TimestampFieldSerializer import TimestampField, RelatedTimestampField
 from water import models
 
 
@@ -11,6 +12,7 @@ class StationSerializer(serializers.ModelSerializer):
 
 class StationStateSerializer(serializers.ModelSerializer):
     station = StationSerializer()
+    timestamp = TimestampField()
 
     class Meta:
         model = models.StationState
@@ -27,7 +29,7 @@ class ValveSerializer(serializers.ModelSerializer):
 
 class ValveStateSerializer(serializers.ModelSerializer):
     valve = ValveSerializer()
-    timestamp = serializers.SlugRelatedField(read_only=True, slug_field='timestamp', source='station_state')
+    timestamp = RelatedTimestampField(read_only=True, slug_field='timestamp', source='station_state')
 
     class Meta:
         model = models.ValveState
@@ -44,7 +46,7 @@ class ContainerSerializer(serializers.ModelSerializer):
 
 class ContainerStateSerializer(serializers.ModelSerializer):
     container = ContainerSerializer()
-    timestamp = serializers.SlugRelatedField(read_only=True, slug_field='timestamp', source='station_state')
+    timestamp = RelatedTimestampField(read_only=True, slug_field='timestamp', source='station_state')
 
     class Meta:
         model = models.ContainerState
@@ -60,7 +62,7 @@ class PumpSerializer(serializers.ModelSerializer):
 
 
 class PumpStateSerializer(serializers.ModelSerializer):
-    timestamp = serializers.SlugRelatedField(read_only=True, slug_field='timestamp', source='station_state')
+    timestamp = RelatedTimestampField(read_only=True, slug_field='timestamp', source='station_state')
 
     class Meta:
         model = models.PumpState

@@ -1,0 +1,24 @@
+GET http://localhost:8000/water/1/pump/1/states/?limit=1
+
+###
+#HTTP/1.1 200 OK
+#Date: Sun, 23 Feb 2020 21:43:15 GMT
+#Server: WSGIServer/0.2 CPython/3.8.1
+#Content-Type: application/json
+#Vary: Accept, Cookie
+#Allow: GET, POST, HEAD, OPTIONS
+#X-Frame-Options: DENY
+#Content-Length: 171
+#X-Content-Type-Options: nosniff
+#
+#{
+#  "count": 35,
+#  "next": "http://localhost:8000/water/1/pump/1/states/?limit=1&page=2",
+#  "previous": null,
+#  "results": [
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-11T01:25:47.939000Z"
+#    }
+#  ]
+#}

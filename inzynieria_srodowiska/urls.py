@@ -22,16 +22,16 @@ from water import views
 router = routers.DefaultRouter()
 router.register(r'water/(?P<station_id>\d+)/valves', views.ValveViewSet, basename='valves')
 router.register(r'water/(?P<station_id>\d+)/valve/(?P<valve_id>\d+)', views.ValveViewSet, basename='valve')
-router.register(r'water/(?P<station_id>\d+)/valve/(?P<valve_id>\d+)/states', views.ValveStateViewSet,
+router.register(r'water/(?P<station_id>\d+)/valve/states/(?P<valve_id>\d+)', views.ValveStateViewSet,
                 basename='valve_states')
 router.register(r'water/(?P<station_id>\d+)/containers', views.ContainerViewSet, basename='containers')
 router.register(r'water/(?P<station_id>\d+)/container/(?P<container_id>\d+)', views.ContainerViewSet,
                 basename='container')
-router.register(r'water/(?P<station_id>\d+)/container/(?P<container_id>\d+)/states', views.ContainerStateViewSet,
+router.register(r'water/(?P<station_id>\d+)/container/states/(?P<container_id>\d+)', views.ContainerStateViewSet,
                 basename='container_states')
 router.register(r'water/(?P<station_id>\d+)/pumps', views.PumpViewSet, basename='pumps')
 router.register(r'water/(?P<station_id>\d+)/pump/(?P<pump_id>\d+)', views.PumpViewSet, basename='pump')
-router.register(r'water/(?P<station_id>\d+)/pump/(?P<pump_id>\d+/states)', views.PumpStateViewSet,
+router.register(r'water/(?P<station_id>\d+)/pump/states/(?P<pump_id>\d+)', views.PumpStateViewSet,
                 basename='pump_states')
 
 router.register(r'water', views.StationViewSet, basename='stations')

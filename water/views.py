@@ -91,7 +91,7 @@ class PumpStateViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         station_id = self.kwargs['station_id']
         pump_id = self.kwargs['pump_id']
-        return PumpState.objects.filter(station_state__station_id=station_id, pump__pump_id_=pump_id).all()
+        return PumpState.objects.filter(station_state__station_id=station_id, pump__pump_id=pump_id).all()
 
 
 def receive_water_data(request, station_id):
@@ -120,7 +120,7 @@ def receive_water_data(request, station_id):
         for valve in valves:
             ValveState.objects.create(
                 valve_id=valve.get("valve_id"),
-                valve_state=valve.get("valve_state"),
+                valve_open=valve.get("valve_open"),
                 station_state=station_state
             )
 

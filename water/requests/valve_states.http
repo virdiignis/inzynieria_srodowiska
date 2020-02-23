@@ -1,0 +1,83 @@
+GET http://127.0.0.1:8000/water/0/valve/1/states
+Accept: application/json
+
+###
+#{
+#    "count": 6,
+#    "next": null,
+#    "previous": null,
+#    "results": [
+#        {
+#            "valve_open": true,
+#            "valve": {
+#                "id": 1,
+#                "station": {
+#                    "id": 0,
+#                    "descriptive_location": "main location"
+#                },
+#                "valve_id": 1
+#            },
+#            "timestamp": "2020-02-23T19:33:30.098138Z"
+#        },
+#        {
+#            "valve_open": true,
+#            "valve": {
+#                "id": 1,
+#                "station": {
+#                    "id": 0,
+#                    "descriptive_location": "main location"
+#                },
+#                "valve_id": 1
+#            },
+#            "timestamp": "2020-02-23T19:36:13.015063Z"
+#        },
+#        {
+#            "valve_open": true,
+#            "valve": {
+#                "id": 1,
+#                "station": {
+#                    "id": 0,
+#                    "descriptive_location": "main location"
+#                },
+#                "valve_id": 1
+#            },
+#            "timestamp": "2020-02-23T19:36:17.916495Z"
+#        },
+#        {
+#            "valve_open": true,
+#            "valve": {
+#                "id": 1,
+#                "station": {
+#                    "id": 0,
+#                    "descriptive_location": "main location"
+#                },
+#                "valve_id": 1
+#            },
+#            "timestamp": "2020-02-23T19:36:34.691965Z"
+#        },
+#        {
+#            "valve_open": true,
+#            "valve": {
+#                "id": 1,
+#                "station": {
+#                    "id": 0,
+#                    "descriptive_location": "main location"
+#                },
+#                "valve_id": 1
+#            },
+#            "timestamp": "2020-02-23T19:36:41.208955Z"
+#        },
+#        {
+#            "valve_open": true,
+#            "valve": {
+#                "id": 1,
+#                "station": {
+#                    "id": 0,
+#                    "descriptive_location": "main location"
+#                },
+#                "valve_id": 1
+#            },
+#            "timestamp": "2020-02-23T19:39:41.573107Z"
+#        }
+#    ]
+#}

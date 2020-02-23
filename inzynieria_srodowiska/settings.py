@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'water.apps.WodaConfig',
+    'water.apps.WaterConfig',
 ]
 
 MIDDLEWARE = [
@@ -105,7 +105,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PAGINATION_CLASS': 'inzynieria_srodowiska.pagination.PageLimitPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+
+    'DATETIME_FORMAT': '%s.%f'
 }
 
 # Internationalization
@@ -127,9 +129,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 steering_states = (
-        ("AU", "Automatic"),
-        ("RM", "Remote Manual"),
-        ("LM", "Local Manual"),
-        ("ID", "Idle"),
-        ("OF", "OFF"),
-    )
+    ("AU", "Automatic"),
+    ("RM", "Remote Manual"),
+    ("LM", "Local Manual"),
+    ("ID", "Idle"),
+    ("OF", "OFF"),
+)

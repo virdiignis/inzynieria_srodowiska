@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class WodaConfig(AppConfig):
+class WaterConfig(AppConfig):
     name = 'water'

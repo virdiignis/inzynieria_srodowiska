@@ -1,4 +1,4 @@
-GET http://127.0.0.1:8000/water/0/pump/states/1
+GET http://127.0.0.1:8000/water/0/pump/1/states
 Accept: application/json
 
 ###

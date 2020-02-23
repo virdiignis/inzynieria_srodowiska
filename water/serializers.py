@@ -9,6 +9,14 @@ class StationSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class StationStateSerializer(serializers.ModelSerializer):
+    station = StationSerializer()
+
+    class Meta:
+        model = models.StationState
+        fields = "__all__"
+
+
 class ValveSerializer(serializers.ModelSerializer):
     station = StationSerializer()
 

@@ -7,7 +7,7 @@ from inzynieria_srodowiska import settings
 from water.models import Valve, Container, Pump, Station
 from water.models import ValveState, ContainerState, PumpState, StationState
 from water.serializers import ValveSerializer, \
-    ContainerSerializer, PumpSerializer
+    ContainerSerializer, PumpSerializer, StationStateSerializer
 from water.serializers import ValveStateSerializer, ContainerStateSerializer, PumpStateSerializer, StationSerializer
 
 
@@ -16,6 +16,15 @@ class StationViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Station.objects.all()
+
+
+class StationStateViewSet(viewsets.ModelViewSet):
+    serializer_class = StationStateSerializer
+
+    def get_queryset(self):
+        station_id = self.kwargs['station_id']
+        return StationState.objects.filter(station_id=station_id).order_by(
+            "-timestamp").all()
 
 
 class ValveViewSet(viewsets.ModelViewSet):

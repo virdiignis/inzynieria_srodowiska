@@ -43,5 +43,5 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),
     path('water/<int:station_id>/stats/', views.receive_water_data),
-    path('water/station/steering_states/', views.get_steering_states),
+    path('steering_states/', views.get_steering_states),
 ]

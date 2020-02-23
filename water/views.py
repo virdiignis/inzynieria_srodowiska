@@ -1,6 +1,6 @@
 import json
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets
 
 from inzynieria_srodowiska import settings
@@ -146,6 +146,4 @@ def receive_water_data(request, station_id):
 
 def get_steering_states(request):
     if request.method == 'GET':
-        print(json.dumps(dict(settings.steering_states)))
-        return HttpResponse(json.dumps(dict(settings.steering_states)),
-                            content_type='application/javascript; charset=utf8')
+        return JsonResponse(dict(settings.steering_states))

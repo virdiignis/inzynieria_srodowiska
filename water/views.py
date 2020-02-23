@@ -1,6 +1,8 @@
 import json
+from datetime import datetime
+from json import JSONDecodeError
 
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from rest_framework import viewsets
 
 from inzynieria_srodowiska import settings
@@ -33,15 +35,6 @@ class ValveViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Valve.objects.filter(**self.kwargs).all()
 
-    def create(self, request, *args, **kwargs):
-        station_id = self.kwargs['station_id']
-        valve_id = self.kwargs['valve_id']
-
-        data = json.loads(request.data)
-
-        # TODO: send command to steering
-        return HttpResponse()
-
 
 class ValveStateViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ValveStateSerializer
@@ -58,15 +51,6 @@ class ContainerViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Container.objects.filter(**self.kwargs).all()
-
-    def create(self, request, *args, **kwargs):
-        station_id = self.kwargs['station_id']
-        container_id = self.kwargs['container_id']
-
-        data = json.loads(request.data)
-
-        # TODO: send command to steering
-        return HttpResponse()
 
 
 class ContainerStateViewSet(viewsets.ReadOnlyModelViewSet):
@@ -86,15 +70,6 @@ class PumpViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Pump.objects.filter(**self.kwargs).all()
 
-    def create(self, request, *args, **kwargs):
-        station_id = self.kwargs['station_id']
-        pump_id = self.kwargs['pump_id']
-
-        data = json.loads(request.data)
-
-        # TODO: send command to steering
-        return HttpResponse()
-
 
 class PumpStateViewSet(viewsets.ModelViewSet):
     serializer_class = PumpStateSerializer
@@ -108,47 +83,50 @@ class PumpStateViewSet(viewsets.ModelViewSet):
 
 def receive_water_data(request, station_id):
     if request.method == 'POST':
-        # TODO: try/except
-
-        request_data = json.loads(request.body)
+        try:
+            request_data = json.loads(request.body)
+        except JSONDecodeError:
+            return HttpResponseBadRequest("Improperly formatted json")
 
         steering_state = request_data.get("steering_state", None)
-        timestamp = request_data.get("timestamp")
+        timestamp = float(request_data.get("timestamp"))
 
         if steering_state is None:
-            steering_state = StationState.objects.filter(station_id=station_id).order_by(
-                "timestamp").last().steering_state
+            steering_state = StationState.objects.filter(station_id=station_id).latest("timestamp").steering_state
 
         station_state = StationState.objects.create(
             station_id=station_id,
-            timestamp=timestamp,
+            timestamp=datetime.fromtimestamp(timestamp),
             steering_state=steering_state
         )
 
-        valves = request_data.get("valves")
-        containers = request_data.get("containers")
-        pumps = request_data.get("pumps")
+        valves = request_data["valves"]
+        containers = request_data["containers"]
+        pumps = request_data["pumps"]
 
-        for valve in valves:
-            ValveState.objects.create(
-                valve_id=valve.get("valve_id"),
-                valve_open=valve.get("valve_open"),
+        ValveState.objects.bulk_create(
+            ValveState(
+                valve=Valve.objects.get(station_id=station_id, valve_id=valve["valve_id"]),
+                valve_open=valve["valve_open"],
                 station_state=station_state
-            )
+            ) for valve in valves
+        )
 
-        for container in containers:
-            ContainerState.objects.create(
-                container_id=container.get("container_id"),
-                container_state=container.get("container_state"),
+        ContainerState.objects.bulk_create(
+            ContainerState(
+                container=Container.objects.get(station_id=station_id, container_id=container["container_id"]),
+                container_state=container["container_state"],
                 station_state=station_state
-            )
+            ) for container in containers
+        )
 
-        for pump in pumps:
-            PumpState.objects.create(
-                pump_id=pump.get("pump_id"),
-                pump_state=pump.get("pump_state"),
+        PumpState.objects.bulk_create(
+            PumpState(
+                pump=Pump.objects.get(station_id=station_id, pump_id=pump["pump_id"]),
+                pump_state=pump["pump_state"],
                 station_state=station_state
-            )
+            ) for pump in pumps
+        )
 
         return HttpResponse()
 

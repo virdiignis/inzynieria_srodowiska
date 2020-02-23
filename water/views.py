@@ -3,12 +3,12 @@ import json
 from django.http import HttpResponse
 from rest_framework import viewsets
 
+from inzynieria_srodowiska import settings
 from water.models import Valve, Container, Pump, Station
 from water.models import ValveState, ContainerState, PumpState, StationState
 from water.serializers import ValveSerializer, \
     ContainerSerializer, PumpSerializer
 from water.serializers import ValveStateSerializer, ContainerStateSerializer, PumpStateSerializer, StationSerializer
-from inzynieria_srodowiska import settings
 
 
 class StationViewSet(viewsets.ModelViewSet):
@@ -85,7 +85,7 @@ class PumpViewSet(viewsets.ModelViewSet):
         return HttpResponse()
 
 
-class PumpStateViewSet(viewsets.ReadOnlyModelViewSet):
+class PumpStateViewSet(viewsets.ModelViewSet):
     serializer_class = PumpStateSerializer
 
     def get_queryset(self):

@@ -104,8 +104,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 100
+    'DEFAULT_PAGINATION_CLASS': 'inzynieria_srodowiska.pagination.PageLimitPagination',
+    'PAGE_SIZE': 10
 }
 
 # Internationalization

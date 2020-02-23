@@ -1,4 +1,5 @@
 //POST for adding info in one state
+//http://127.0.0.1:8000/water/<int:station_id>/stats/
 {
     "steering_state" : "ON",
     "timestamp" :"1582486439",

@@ -1,0 +1,203 @@
+GET http://localhost:8000/water/1/pump/1/states/?page=1
+
+###
+#HTTP/1.1 200 OK
+#Date: Sun, 23 Feb 2020 21:28:20 GMT
+#Server: WSGIServer/0.2 CPython/3.8.1
+#Content-Type: application/json
+#Vary: Accept, Cookie
+#Allow: GET, POST, HEAD, OPTIONS
+#X-Frame-Options: DENY
+#Content-Length: 725
+#X-Content-Type-Options: nosniff
+#
+#{
+#  "count": 35,
+#  "next": "http://localhost:8000/water/1/pump/1/states/?page=2",
+#  "previous": null,
+#  "results": [
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-11T01:25:47.939000Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-11T02:17:55.851148Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-11T02:18:27.327903Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": false,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": false,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": false,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": false,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    }
+#  ]
+#}
+
+GET http://localhost:8000/water/1/pump/1/states/?page=2
+
+###
+#HTTP/1.1 200 OK
+#Date: Sun, 23 Feb 2020 21:29:55 GMT
+#Server: WSGIServer/0.2 CPython/3.8.1
+#Content-Type: application/json
+#Vary: Accept, Cookie
+#Allow: GET, POST, HEAD, OPTIONS
+#X-Frame-Options: DENY
+#Content-Length: 766
+#X-Content-Type-Options: nosniff
+#
+#{
+#  "count": 35,
+#  "next": "http://localhost:8000/water/1/pump/1/states/?page=3",
+#  "previous": "http://localhost:8000/water/1/pump/1/states/",
+#  "results": [
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": false,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": false,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": false,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    }
+#  ]
+#}
+
+GET http://localhost:8000/water/1/pump/1/states/?page=1&limit=5
+
+###
+#HTTP/1.1 200 OK
+#Date: Sun, 23 Feb 2020 21:30:48 GMT
+#Server: WSGIServer/0.2 CPython/3.8.1
+#Content-Type: application/json
+#Vary: Accept, Cookie
+#Allow: GET, POST, HEAD, OPTIONS
+#X-Frame-Options: DENY
+#Content-Length: 420
+#X-Content-Type-Options: nosniff
+#
+#{
+#  "count": 35,
+#  "next": "http://localhost:8000/water/1/pump/1/states/?limit=5&page=2",
+#  "previous": null,
+#  "results": [
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-11T01:25:47.939000Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-11T02:17:55.851148Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-11T02:18:27.327903Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": false,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    }
+#  ]
+#}
+
+GET http://localhost:8000/water/1/pump/1/states/?limit=5&page=4
+
+###
+#HTTP/1.1 200 OK
+#Date: Sun, 23 Feb 2020 21:31:33 GMT
+#Server: WSGIServer/0.2 CPython/3.8.1
+#Content-Type: application/json
+#Vary: Accept, Cookie
+#Allow: GET, POST, HEAD, OPTIONS
+#X-Frame-Options: DENY
+#Content-Length: 477
+#X-Content-Type-Options: nosniff
+#
+#{
+#  "count": 35,
+#  "next": "http://localhost:8000/water/1/pump/1/states/?limit=5&page=5",
+#  "previous": "http://localhost:8000/water/1/pump/1/states/?limit=5&page=3",
+#  "results": [
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    },
+#    {
+#      "pump_state": false,
+#      "timestamp": "2020-02-23T22:06:46.893000Z"
+#    }
+#  ]
+#}

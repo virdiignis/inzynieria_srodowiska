@@ -37,6 +37,7 @@ router.register(r'water/(?P<station_id>\d+)/pump/(?P<pump_id>\d+)', views.PumpVi
 router.register(r'water', views.StationViewSet, basename='stations')
 router.register(r'water/(?P<station_id>\d+)/states', views.StationStateViewSet,
                 basename='station_states')
+router.register(r'users', views.UserViewSet, basename='users')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include statesin URLs for the browsable API.

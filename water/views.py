@@ -1,16 +1,22 @@
 import json
-from datetime import datetime
 from json import JSONDecodeError
 
+from django.contrib.auth.models import User
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from rest_framework import viewsets
 
 from inzynieria_srodowiska import settings
+from water.filters import DatetimeRangeFilterBackend
 from water.models import Valve, Container, Pump, Station
 from water.models import ValveState, ContainerState, PumpState, StationState
 from water.serializers import ValveSerializer, \
-    ContainerSerializer, PumpSerializer, StationStateSerializer
+    ContainerSerializer, PumpSerializer, StationStateSerializer, UserSerializer
 from water.serializers import ValveStateSerializer, ContainerStateSerializer, PumpStateSerializer, StationSerializer
+
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
 
 
 class StationViewSet(viewsets.ModelViewSet):
@@ -26,7 +32,7 @@ class StationStateViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         station_id = self.kwargs['station_id']
         return StationState.objects.filter(station_id=station_id).order_by(
-            "-timestamp").all()
+            "-timestamp")
 
     def create(self, request, *args, **kwargs):
         pass
@@ -42,12 +48,13 @@ class ValveViewSet(viewsets.ModelViewSet):
 
 class ValveStateViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ValveStateSerializer
+    filter_backends = [DatetimeRangeFilterBackend]
 
     def get_queryset(self):
         station_id = self.kwargs['station_id']
         valve_id = self.kwargs['valve_id']
         return ValveState.objects.filter(station_state__station_id=station_id, valve__valve_id=valve_id).order_by(
-            "-station_state__timestamp", "-id").all()
+            "-station_state__timestamp", "-id")
 
     def create(self, request, *args, **kwargs):
         pass
@@ -63,13 +70,14 @@ class ContainerViewSet(viewsets.ModelViewSet):
 
 class ContainerStateViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ContainerStateSerializer
+    filter_backends = [DatetimeRangeFilterBackend]
 
     def get_queryset(self):
         station_id = self.kwargs['station_id']
         container_id = self.kwargs['container_id']
         return ContainerState.objects.filter(station_state__station_id=station_id,
                                              container__container_id=container_id).order_by(
-            "-station_state__timestamp", "-id").all()
+            "-station_state__timestamp", "-id")
 
     def create(self, request, *args, **kwargs):
         pass
@@ -85,12 +93,13 @@ class PumpViewSet(viewsets.ModelViewSet):
 
 class PumpStateViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PumpStateSerializer
+    filter_backends = [DatetimeRangeFilterBackend]
 
     def get_queryset(self):
         station_id = self.kwargs['station_id']
         pump_id = self.kwargs['pump_id']
         return PumpState.objects.filter(station_state__station_id=station_id, pump__pump_id=pump_id).order_by(
-            "-station_state__timestamp", "-id").all()
+            "-station_state__timestamp", "-id")
 
     def create(self, request, *args, **kwargs):
         pass
@@ -105,14 +114,14 @@ def receive_water_data(request, station_id):
             return HttpResponseBadRequest("Improperly formatted json")
 
         steering_state = request_data.get("steering_state", None)
-        timestamp = float(request_data.get("timestamp"))
+        timestamp = request_data["timestamp"]
 
         if steering_state is None:
             steering_state = StationState.objects.filter(station_id=station_id).latest("timestamp").steering_state
 
         station_state = StationState.objects.create(
             station_id=station_id,
-            timestamp=datetime.fromtimestamp(timestamp),
+            timestamp=timestamp,
             steering_state=steering_state
         )
 

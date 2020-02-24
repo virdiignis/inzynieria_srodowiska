@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "steering_state": "AU",
-  "timestamp": "1582494524.4833298",
+  "timestamp": "2020-02-23T23:05:34.370047Z",
   "valves": [
     {
       "valve_id": "1",

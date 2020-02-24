@@ -1,7 +1,13 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from inzynieria_srodowiska.TimestampFieldSerializer import TimestampField, RelatedTimestampField
 from water import models
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "username", "first_name", "last_name", "email")
 
 
 class StationSerializer(serializers.ModelSerializer):
@@ -10,13 +16,12 @@ class StationSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class StationStateSerializer(serializers.ModelSerializer):
-    station = StationSerializer()
-    timestamp = TimestampField()
+class StationStateSerializer(serializers.HyperlinkedModelSerializer):
+    manual_steering_user = UserSerializer(read_only=True)
 
     class Meta:
         model = models.StationState
-        fields = "__all__"
+        fields = ("steering_state", "manual_steering_user", "timestamp")
 
 
 class ValveSerializer(serializers.ModelSerializer):
@@ -28,12 +33,11 @@ class ValveSerializer(serializers.ModelSerializer):
 
 
 class ValveStateSerializer(serializers.ModelSerializer):
-    valve = ValveSerializer()
-    timestamp = RelatedTimestampField(read_only=True, slug_field='timestamp', source='station_state')
+    timestamp = serializers.SlugRelatedField(read_only=True, slug_field='timestamp', source='station_state')
 
     class Meta:
         model = models.ValveState
-        fields = ['valve_open', 'valve', 'timestamp']
+        fields = ['valve_open', 'timestamp']
 
 
 class ContainerSerializer(serializers.ModelSerializer):
@@ -45,12 +49,11 @@ class ContainerSerializer(serializers.ModelSerializer):
 
 
 class ContainerStateSerializer(serializers.ModelSerializer):
-    container = ContainerSerializer()
-    timestamp = RelatedTimestampField(read_only=True, slug_field='timestamp', source='station_state')
+    timestamp = serializers.SlugRelatedField(read_only=True, slug_field='timestamp', source='station_state')
 
     class Meta:
         model = models.ContainerState
-        fields = ['container_state', 'container', 'timestamp']
+        fields = ['container_state', 'timestamp']
 
 
 class PumpSerializer(serializers.ModelSerializer):
@@ -62,7 +65,7 @@ class PumpSerializer(serializers.ModelSerializer):
 
 
 class PumpStateSerializer(serializers.ModelSerializer):
-    timestamp = RelatedTimestampField(read_only=True, slug_field='timestamp', source='station_state')
+    timestamp = serializers.SlugRelatedField(read_only=True, slug_field='timestamp', source='station_state')
 
     class Meta:
         model = models.PumpState

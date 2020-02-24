@@ -1,0 +1,106 @@
+[
+  {
+    "model": "water.station",
+    "pk": 1,
+    "fields": {
+      "descriptive_location": "first station"
+    }
+  },
+  {
+    "model": "water.container",
+    "pk": 1,
+    "fields": {
+      "station": 1,
+      "container_id": 1
+    }
+  },
+  {
+    "model": "water.container",
+    "pk": 2,
+    "fields": {
+      "station": 1,
+      "container_id": 2
+    }
+  },
+  {
+    "model": "water.container",
+    "pk": 3,
+    "fields": {
+      "station": 1,
+      "container_id": 3
+    }
+  },
+  {
+    "model": "water.container",
+    "pk": 4,
+    "fields": {
+      "station": 1,
+      "container_id": 4
+    }
+  },
+
+  {
+    "model": "water.container",
+    "pk": 5,
+    "fields": {
+      "station": 1,
+      "container_id": 5
+    }
+  },
+  {
+    "model": "water.valve",
+    "pk": 1,
+    "fields": {
+      "station": 1,
+      "valve_id": 1
+    }
+  },
+  {
+    "model": "water.valve",
+    "pk": 2,
+    "fields": {
+      "station": 1,
+      "valve_id": 2
+    }
+  },
+  {
+    "model": "water.valve",
+    "pk": 3,
+    "fields": {
+      "station": 1,
+      "valve_id": 3
+    }
+  },
+  {
+    "model": "water.pump",
+    "pk": 1,
+    "fields": {
+      "station": 1,
+      "pump_id": 1
+    }
+  },
+  {
+    "model": "water.pump",
+    "pk": 2,
+    "fields": {
+      "station": 1,
+      "pump_id": 2
+    }
+  },
+  {
+    "model": "water.pump",
+    "pk": 3,
+    "fields": {
+      "station": 1,
+      "pump_id": 3
+    }
+  },
+  {
+    "model": "water.pump",
+    "pk": 4,
+    "fields": {
+      "station": 1,
+      "pump_id": 4
+    }
+  }
+]

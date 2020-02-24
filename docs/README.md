@@ -26,7 +26,7 @@ python manage.py migrate
 
 ## 5. Load fixture with default groups and user accounts
 ```
-python manage.py loaddata docs/default_users.json
+python manage.py loaddata default_users.json
 ```
 
 Default accounts are:  

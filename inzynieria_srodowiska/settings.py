@@ -107,7 +107,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'inzynieria_srodowiska.pagination.PageLimitPagination',
     'PAGE_SIZE': 10,
 
-    'DATETIME_FORMAT': '%s.%f'
+    'DATETIME_FORMAT': '%s.%f',
+
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 # Internationalization

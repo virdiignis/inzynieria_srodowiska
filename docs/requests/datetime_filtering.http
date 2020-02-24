@@ -1,0 +1,32 @@
+GET http://localhost:8000/water/1/pump/1/states/?from=2020-02-23T22:08:23.290000Z&to=2020-02-23T23:05:34.370047Z
+
+###
+#HTTP/1.1 200 OK
+#Date: Mon, 24 Feb 2020 13:36:38 GMT
+#Server: WSGIServer/0.2 CPython/3.8.1
+#Content-Type: application/json
+#Vary: Accept, Cookie
+#Allow: GET, POST, HEAD, OPTIONS
+#X-Frame-Options: DENY
+#Content-Length: 239
+#X-Content-Type-Options: nosniff
+#
+#{
+#  "count": 3,
+#  "next": null,
+#  "previous": null,
+#  "results": [
+#    {
+#      "pump_state": true,
+#      "timestamp": "2020-02-23T23:05:34.370047Z"
+#    },
+#    {
+#      "pump_state": false,
+#      "timestamp": "2020-02-23T22:08:23.290000Z"
+#    },
+#    {
+#      "pump_state": false,
+#      "timestamp": "2020-02-23T22:08:23.290000Z"
+#    }
+#  ]
+#}

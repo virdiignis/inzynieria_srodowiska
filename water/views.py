@@ -35,8 +35,8 @@ class StationStateViewSet(viewsets.ModelViewSet):
             "-timestamp")
 
     def create(self, request, *args, **kwargs):
-        pass
-    #   TODO: for remote blockade
+        # TODO: for remote manual access
+        raise NotImplementedError
 
 
 class ValveViewSet(viewsets.ModelViewSet):
@@ -57,8 +57,8 @@ class ValveStateViewSet(viewsets.ReadOnlyModelViewSet):
             "-station_state__timestamp", "-id")
 
     def create(self, request, *args, **kwargs):
-        pass
-    #     TODO:  remote_manual steering
+        # TODO: for remote manual access
+        raise NotImplementedError
 
 
 class ContainerViewSet(viewsets.ModelViewSet):
@@ -80,8 +80,8 @@ class ContainerStateViewSet(viewsets.ReadOnlyModelViewSet):
             "-station_state__timestamp", "-id")
 
     def create(self, request, *args, **kwargs):
-        pass
-    #     TODO:  remote_manual steering
+        # TODO: for remote manual access
+        raise NotImplementedError
 
 
 class PumpViewSet(viewsets.ModelViewSet):
@@ -102,8 +102,8 @@ class PumpStateViewSet(viewsets.ReadOnlyModelViewSet):
             "-station_state__timestamp", "-id")
 
     def create(self, request, *args, **kwargs):
-        pass
-    #   TODO:  remote_manual steering
+        # TODO: for remote manual access
+        raise NotImplementedError
 
 
 def receive_water_data(request, station_id):

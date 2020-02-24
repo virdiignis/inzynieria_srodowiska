@@ -134,3 +134,7 @@ steering_states = (
     ("ID", "Idle"),
     ("OF", "OFF"),
 )
+
+FIXTURE_DIRS = (
+   '/water/fixtures/',
+)

@@ -83,7 +83,7 @@ class PumpViewSet(viewsets.ModelViewSet):
         return Pump.objects.filter(**self.kwargs).all()
 
 
-class PumpStateViewSet(viewsets.ModelViewSet):
+class PumpStateViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PumpStateSerializer
 
     def get_queryset(self):

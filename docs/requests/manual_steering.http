@@ -3,24 +3,26 @@ POST http://localhost:80/water/0/manual
 Content-Type: application/json
 
 {
-"station_id" : "0",
-"steering_mode" : "RM",
-"pumps" : [
-  {"pump_id": "1",
-  "pump_state": "True"},
-  {"pump_id": "2",
-  "pump_state": "True"},
-  {"pump_id": "3",
-  "pump_state": "True"},
-  {"pump_id": "4",
-  "pump_state": "False"}
-],
-  "valves": [
-    {"valve_id": "1",
-    "valve_open": "False"},
-     {"valve_id": "2",
-    "valve_open": "True"}
-  ]
+}
+
+###
+POST http://localhost:80/api/item
+Content-Type: application/json
+
+{
+  "valve_id": "1",
+  "valve_open": "False"
+}
+
+###
+#POST http://localhost:80/water/(?P<station_id>\d+)/manual
+POST http://localhost:80/water/0/manual
+Content-Type: application/json
+
+
+{
+  "pump_id": "1",
+  "pump_state": "True"
 }
 
 

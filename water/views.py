@@ -30,9 +30,7 @@ class StationStateViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         pass
-
-
-#     TODO: for remote blockade
+    #   TODO: for remote blockade
 
 
 class ValveViewSet(viewsets.ModelViewSet):

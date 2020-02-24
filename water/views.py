@@ -146,7 +146,11 @@ def receive_water_data(request, station_id):
 
         return HttpResponse()
 
+    return HttpResponseBadRequest()
+
 
 def get_steering_states(request):
     if request.method == 'GET':
         return JsonResponse(dict(settings.steering_states))
+
+    return HttpResponseBadRequest()

@@ -28,6 +28,12 @@ class StationStateViewSet(viewsets.ModelViewSet):
         return StationState.objects.filter(station_id=station_id).order_by(
             "-timestamp").all()
 
+    def create(self, request, *args, **kwargs):
+        pass
+
+
+#     TODO: for remote blockade
+
 
 class ValveViewSet(viewsets.ModelViewSet):
     serializer_class = ValveSerializer
@@ -44,6 +50,10 @@ class ValveStateViewSet(viewsets.ReadOnlyModelViewSet):
         valve_id = self.kwargs['valve_id']
         return ValveState.objects.filter(station_state__station_id=station_id, valve__valve_id=valve_id).order_by(
             "-station_state__timestamp", "-id").all()
+
+    def create(self, request, *args, **kwargs):
+        pass
+    #     TODO:  remote_manual steering
 
 
 class ContainerViewSet(viewsets.ModelViewSet):
@@ -63,6 +73,10 @@ class ContainerStateViewSet(viewsets.ReadOnlyModelViewSet):
                                              container__container_id=container_id).order_by(
             "-station_state__timestamp", "-id").all()
 
+    def create(self, request, *args, **kwargs):
+        pass
+    #     TODO:  remote_manual steering
+
 
 class PumpViewSet(viewsets.ModelViewSet):
     serializer_class = PumpSerializer
@@ -79,6 +93,10 @@ class PumpStateViewSet(viewsets.ModelViewSet):
         pump_id = self.kwargs['pump_id']
         return PumpState.objects.filter(station_state__station_id=station_id, pump__pump_id=pump_id).order_by(
             "-station_state__timestamp", "-id").all()
+
+    def create(self, request, *args, **kwargs):
+        pass
+    #   TODO:  remote_manual steering
 
 
 def receive_water_data(request, station_id):

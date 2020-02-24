@@ -1,0 +1,54 @@
+# State of the station should be managed by station hardware, according to docs/states.md file. We can hit an endpoint to try to change it. Each 'hearetbeat update' request should contain actual steering state of the station.
+# Heartbeat update example is in the docs/requests/post_heartbeat_update_from_station.http file.
+
+# In this document I assume station address to be localhost:8080 – that will be of course adjusted.
+
+# Endpoint for requesting Remote Manual Access:
+PUT http://localhost:8080/manual
+
+{}
+
+###
+# Should return 200 OK if this change succeded – that is if station is ON (has power on etc), and Local Manual Switch is OFF.
+# 403 if Local Manual Switch is ON. 412 if station power is OFF.
+# Immadietly after this request is answered, heartbeat update request with new state should be sent.
+
+
+# Steering the valves and pumps in Remote Manual Mode.
+# true is open for valve and working for pump. false is the opposite.
+#PUT http://localhost:8080/manual/<str:{pump, valve}>/<int:id>/
+
+# Opening the valve
+PUT http://localhost:8080/manual/valve/1
+Content-Type: application/json
+
+{
+  "state": true
+}
+
+###
+
+# Stopping the pump
+PUT http://localhost:8080/manual/pump/3
+Content-Type: application/json
+
+{
+  "state": false
+}
+
+###
+# 200 OK on successful change, 500 on error, 403 on Local Manual Switch ON or State set up to something different than RM.
+
+
+# Starting a scenario
+POST http://localhost:8080/automatic/
+Content-Type: application/json
+
+{
+  "This content is to be agreed with frontend.": "We'll simply pass it to the station, only registering it as a JSON in DB."
+}
+
+###
+# Should return 200 if accepted, 403 if LM switch is ON.
+
+

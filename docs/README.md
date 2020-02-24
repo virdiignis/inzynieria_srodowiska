@@ -28,6 +28,16 @@ python manage.py migrate
 ```
 python manage.py loaddata default_users.json
 ```
+To load default station with no data:
+
+```
+python manage.py loaddata water_station.json
+```
+
+To load station with some example data:
+```
+python manage.py loaddata example_data_station.json
+```
 
 Default accounts are:  
 admin:admin  

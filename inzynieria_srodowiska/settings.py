@@ -135,6 +135,6 @@ steering_states = (
     ("OF", "OFF"),
 )
 
-FIXTURE_DIRS = (
-   '/water/fixtures/',
-)
+STATIONS_URLS = {
+    1: "localhost:8000"
+}

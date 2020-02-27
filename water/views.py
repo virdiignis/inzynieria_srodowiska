@@ -1,13 +1,14 @@
 import json
 from json import JSONDecodeError
 
+import requests
 from django.contrib.auth.models import User
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from rest_framework import viewsets
 
 from inzynieria_srodowiska import settings
 from water.filters import DatetimeRangeFilterBackend
-from water.models import Valve, Container, Pump, Station
+from water.models import Valve, Container, Pump, Station, Order, SteeringUser
 from water.models import ValveState, ContainerState, PumpState, StationState
 from water.serializers import ValveSerializer, \
     ContainerSerializer, PumpSerializer, StationStateSerializer, UserSerializer
@@ -31,12 +32,54 @@ class StationStateViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         station_id = self.kwargs['station_id']
-        return StationState.objects.filter(station_id=station_id).order_by(
-            "-timestamp")
+        return StationState.objects.filter(station_id=station_id).order_by("-timestamp")
 
     def create(self, request, *args, **kwargs):
-        # TODO: for remote manual access
-        raise NotImplementedError
+        station_id = self.kwargs['station_id']
+        steering_state = request.data.get('steering_state')
+
+        if steering_state not in ("RM", "ID"):
+            return HttpResponseBadRequest("You requested wrong state from this endpoint.")
+
+        manual_steering_user = request.user
+
+        if steering_state == "RM":
+            try:
+                user = SteeringUser.objects.get()
+                if user.user == manual_steering_user:
+                    return HttpResponse(status=304)
+
+                return HttpResponse(f"User {user.user.username} is currently in control of the station."
+                                    f"You can contact him under {user.user.email}", status=403)
+            except SteeringUser.DoesNotExist:
+                pass
+
+            station_url = settings.STATIONS_URLS[station_id]
+            response = requests.post(f"{station_url}/manual")
+
+            if response.status_code == 200:
+                SteeringUser(user=manual_steering_user, station_id=station_id).save()
+            elif response.status_code == 403:
+                return HttpResponse("Station is in Local Manual mode.", status=403)
+            elif response.status_code == 412:
+                return HttpResponse("Station is OFF", status=412)
+            else:
+                return HttpResponse("Unexpected response code from station", status=500)
+
+            Order.objects.create(
+                station_id=station_id,
+                user=manual_steering_user,
+                order="Aquire manual steering"
+            )
+
+            return HttpResponse("OK")
+
+        elif steering_state == "ID":
+            try:
+                SteeringUser.objects.get(user=request.user).delete()
+                return HttpResponse("OK")
+            except SteeringUser.DoesNotExist:
+                return HttpResponse("User was not in control of the station.", status=403)
 
 
 class ValveViewSet(viewsets.ModelViewSet):
@@ -56,9 +99,18 @@ class ValveStateViewSet(viewsets.ReadOnlyModelViewSet):
         return ValveState.objects.filter(station_state__station_id=station_id, valve__valve_id=valve_id).order_by(
             "-station_state__timestamp", "-id")
 
-    def create(self, request, *args, **kwargs):
-        # TODO: for remote manual access
-        raise NotImplementedError
+    def create(self, request, station_id, valve_id):
+        try:
+            SteeringUser.objects.get(user=request.user, station_id=station_id)
+            if StationState.objects.filter(station_id=station_id).latest("timestamp").steering_state != "RM":
+                return HttpResponse("User is not in control of the station!")
+        except (SteeringUser.DoesNotExist, StationState.DoesNotExist):
+            return HttpResponse("User is not in control of the station!")
+
+        station_url = settings.STATIONS_URLS[station_id]
+        response = requests.put(f"{station_url}/manual/valve/{valve_id}", data=request.data)
+
+        return JsonResponse(status=response.status_code, data=response.json(), safe=False)
 
 
 class ContainerViewSet(viewsets.ModelViewSet):
@@ -79,9 +131,18 @@ class ContainerStateViewSet(viewsets.ReadOnlyModelViewSet):
                                              container__container_id=container_id).order_by(
             "-station_state__timestamp", "-id")
 
-    def create(self, request, *args, **kwargs):
-        # TODO: for remote manual access
-        raise NotImplementedError
+    def create(self, request, station_id, container_id):
+        try:
+            SteeringUser.objects.get(user=request.user, station_id=station_id)
+            if StationState.objects.filter(station_id=station_id).latest("timestamp").steering_state != "RM":
+                return HttpResponse("User is not in control of the station!")
+        except (SteeringUser.DoesNotExist, StationState.DoesNotExist):
+            return HttpResponse("User is not in control of the station!")
+
+        station_url = settings.STATIONS_URLS[station_id]
+        response = requests.put(f"{station_url}/manual/container/{container_id}", data=request.data)
+
+        return JsonResponse(status=response.status_code, data=response.json(), safe=False)
 
 
 class PumpViewSet(viewsets.ModelViewSet):
@@ -101,9 +162,18 @@ class PumpStateViewSet(viewsets.ReadOnlyModelViewSet):
         return PumpState.objects.filter(station_state__station_id=station_id, pump__pump_id=pump_id).order_by(
             "-station_state__timestamp", "-id")
 
-    def create(self, request, *args, **kwargs):
-        # TODO: for remote manual access
-        raise NotImplementedError
+    def create(self, request, station_id, pump_id):
+        try:
+            SteeringUser.objects.get(user=request.user, station_id=station_id)
+            if StationState.objects.filter(station_id=station_id).latest("timestamp").steering_state != "RM":
+                return HttpResponse("User is not in control of the station!")
+        except (SteeringUser.DoesNotExist, StationState.DoesNotExist):
+            return HttpResponse("User is not in control of the station!")
+
+        station_url = settings.STATIONS_URLS[station_id]
+        response = requests.put(f"{station_url}/manual/pump/{pump_id}", data=request.data)
+
+        return JsonResponse(status=response.status_code, data=response.json(), safe=False)
 
 
 def receive_water_data(request, station_id):
@@ -116,13 +186,27 @@ def receive_water_data(request, station_id):
         steering_state = request_data.get("steering_state", None)
         timestamp = request_data["timestamp"]
 
+        manual_steering_user = None
         if steering_state is None:
-            steering_state = StationState.objects.filter(station_id=station_id).latest("timestamp").steering_state
+            last_state = StationState.objects.filter(station_id=station_id).latest("timestamp")
+            steering_state = last_state.steering_state
+            manual_steering_user = last_state.manual_steering_user
+        elif steering_state != "RM":
+            try:
+                SteeringUser.objects.get(station_id=station_id).delete()
+            except SteeringUser.DoesNotExist:
+                pass
+        elif steering_state == "RM":
+            try:
+                manual_steering_user = SteeringUser.objects.get(station_id=station_id)
+            except SteeringUser.DoesNotExist:
+                steering_state = "ID"
 
         station_state = StationState.objects.create(
             station_id=station_id,
             timestamp=timestamp,
-            steering_state=steering_state
+            steering_state=steering_state,
+            manual_steering_user=manual_steering_user
         )
 
         valves = request_data["valves"]

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import JSONField
 from django.db import models
+
 from inzynieria_srodowiska import settings
 
 
@@ -55,3 +56,9 @@ class Order(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     station = models.ForeignKey(Station, related_name="orders", on_delete=models.CASCADE)
     order = JSONField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class SteeringUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    station = models.OneToOneField(Station, on_delete=models.CASCADE)

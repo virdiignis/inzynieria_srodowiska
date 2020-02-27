@@ -4,7 +4,7 @@
 # In this document I assume station address to be localhost:8080 – that will be of course adjusted.
 
 # Endpoint for requesting Remote Manual Access:
-PUT http://localhost:8080/manual
+POST http://localhost:8080/manual
 
 {}
 

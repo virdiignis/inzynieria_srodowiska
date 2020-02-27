@@ -5,13 +5,27 @@
 
 # Endpoint for requesting Remote Manual Access:
 POST http://localhost:8080/manual
+Content-Type: application/json
 
-{}
+{
+  "steering_state": "RM"
+}
 
 ###
 # Should return 200 OK if this change succeded – that is if station is ON (has power on etc), and Local Manual Switch is OFF.
 # 403 if Local Manual Switch is ON. 412 if station power is OFF.
 # Immadietly after this request is answered, heartbeat update request with new state should be sent.
+
+
+# Release manual steering
+POST http://localhost:8080/manual
+Content-Type: application/json
+
+{
+  "steering_state": "ID"
+}
+
+###
 
 
 # Steering the valves and pumps in Remote Manual Mode.

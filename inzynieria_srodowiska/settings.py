@@ -24,7 +24,7 @@ SECRET_KEY = '-j)k%bl9u*yx%0y1i3g0*7+55259tweyw+@tg9cub4)^39v_8c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["150.254.45.110"]
+ALLOWED_HOSTS = ["150.254.45.110", "localhost"]
 
 # Application definition
 
@@ -103,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PAGINATION_CLASS': 'inzynieria_srodowiska.pagination.PageLimitPagination',
     'PAGE_SIZE': 10,
@@ -136,5 +136,6 @@ steering_states = (
 )
 
 STATIONS_URLS = {
-    "1": "http://localhost:8080"
+    "1": "http://localhost:8080",
+    1: "http://localhost:8080"
 }

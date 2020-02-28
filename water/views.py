@@ -232,7 +232,7 @@ def receive_water_data(request, station_id):
         ValveState.objects.bulk_create(
             ValveState(
                 valve=Valve.objects.get(station_id=station_id, valve_id=valve["valve_id"]),
-                valve_open=valve["valve_state"],
+                valve_open=valve["valve_open"],
                 station_state=station_state
             ) for valve in valves
         )

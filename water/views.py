@@ -36,8 +36,7 @@ class StationStateViewSet(viewsets.ModelViewSet):
         return StationState.objects.filter(station_id=station_id).order_by("-timestamp")
 
     @csrf_exempt
-    def create(self, request, *args, **kwargs):
-        station_id = self.kwargs['station_id']
+    def create(self, request, station_id):
         steering_state = request.data.get('steering_state')
 
         if steering_state not in ("RM", "ID"):
@@ -47,17 +46,18 @@ class StationStateViewSet(viewsets.ModelViewSet):
 
         if steering_state == "RM":
             try:
-                user = SteeringUser.objects.get()
-                if user.user == manual_steering_user:
+                user = SteeringUser.objects.get().user
+                if user == manual_steering_user:
                     return HttpResponse(status=304)
 
-                return HttpResponse(f"User {user.user.username} is currently in control of the station."
-                                    f"You can contact him under {user.user.email}", status=403)
+                return HttpResponse(f"User {user.username} is currently in control of the station."
+                                    f"You can contact him under {user.email}", status=403)
             except SteeringUser.DoesNotExist:
                 pass
 
             station_url = settings.STATIONS_URLS[station_id]
-            response = requests.post(f"{station_url}/manual")
+            response = requests.post(f"{station_url}/manual", headers="Content-Type: application/json",
+                                     data=json.dumps(request.data))
 
             if response.status_code == 200:
                 SteeringUser(user=manual_steering_user, station_id=station_id).save()
@@ -81,7 +81,11 @@ class StationStateViewSet(viewsets.ModelViewSet):
                 SteeringUser.objects.get(user=request.user).delete()
                 return HttpResponse("OK")
             except SteeringUser.DoesNotExist:
-                return HttpResponse("User was not in control of the station.", status=403)
+                try:
+                    SteeringUser.objects.get()
+                    return HttpResponse("User was not in control of the station.", status=403)
+                except SteeringUser.DoesNotExist:
+                    return HttpResponse("No user has remote control over station", status=304)
 
 
 class ValveViewSet(viewsets.ModelViewSet):
@@ -111,9 +115,11 @@ class ValveStateViewSet(viewsets.ReadOnlyModelViewSet):
             return HttpResponse("User is not in control of the station!")
 
         station_url = settings.STATIONS_URLS[station_id]
-        response = requests.put(f"{station_url}/manual/valve/{valve_id}", data=request.data)
+        response = requests.post(f"{station_url}/manual/valve/{valve_id}",
+                                 headers="Content-Type: application/json",
+                                 data=json.dumps(request.data))
 
-        return JsonResponse(status=response.status_code, data=response.json(), safe=False)
+        return HttpResponse(status=response.status_code, content=response.content)
 
 
 class ContainerViewSet(viewsets.ModelViewSet):
@@ -144,9 +150,11 @@ class ContainerStateViewSet(viewsets.ReadOnlyModelViewSet):
             return HttpResponse("User is not in control of the station!")
 
         station_url = settings.STATIONS_URLS[station_id]
-        response = requests.put(f"{station_url}/manual/container/{container_id}", data=request.data)
+        response = requests.post(f"{station_url}/manual/container/{container_id}",
+                                 headers="Content-Type: application/json",
+                                 data=json.dumps(request.data))
 
-        return JsonResponse(status=response.status_code, data=response.json(), safe=False)
+        return HttpResponse(status=response.status_code, content=response.content)
 
 
 class PumpViewSet(viewsets.ModelViewSet):
@@ -176,9 +184,11 @@ class PumpStateViewSet(viewsets.ReadOnlyModelViewSet):
             return HttpResponse("User is not in control of the station!")
 
         station_url = settings.STATIONS_URLS[station_id]
-        response = requests.put(f"{station_url}/manual/pump/{pump_id}", data=request.data)
+        response = requests.post(f"{station_url}/manual/pump/{pump_id}",
+                                 headers="Content-Type: application/json",
+                                 data=json.dumps(request.data))
 
-        return JsonResponse(status=response.status_code, data=response.json(), safe=False)
+        return HttpResponse(status=response.status_code, content=response.content)
 
 
 @csrf_exempt
@@ -204,7 +214,7 @@ def receive_water_data(request, station_id):
                 pass
         elif steering_state == "RM":
             try:
-                manual_steering_user = SteeringUser.objects.get(station_id=station_id)
+                manual_steering_user = SteeringUser.objects.get(station_id=station_id).user
             except SteeringUser.DoesNotExist:
                 steering_state = "ID"
 

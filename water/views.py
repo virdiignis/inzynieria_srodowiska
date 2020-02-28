@@ -247,3 +247,12 @@ def get_steering_states(request):
         return JsonResponse(dict(settings.steering_states))
 
     return HttpResponseBadRequest()
+
+
+def automatic(request, station_id):
+    if request.method == "POST":
+        station_url = settings.STATIONS_URLS[station_id]
+        response = requests.post(f"{station_url}/automatic/", data=request.data)
+        return HttpResponse(response.text, status=response.status_code)
+
+    return HttpResponseBadRequest()

@@ -4,6 +4,7 @@ from json import JSONDecodeError
 import requests
 from django.contrib.auth.models import User
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 
 from inzynieria_srodowiska import settings
@@ -34,6 +35,7 @@ class StationStateViewSet(viewsets.ModelViewSet):
         station_id = self.kwargs['station_id']
         return StationState.objects.filter(station_id=station_id).order_by("-timestamp")
 
+    @csrf_exempt
     def create(self, request, *args, **kwargs):
         station_id = self.kwargs['station_id']
         steering_state = request.data.get('steering_state')
@@ -99,6 +101,7 @@ class ValveStateViewSet(viewsets.ReadOnlyModelViewSet):
         return ValveState.objects.filter(station_state__station_id=station_id, valve__valve_id=valve_id).order_by(
             "-station_state__timestamp", "-id")
 
+    @csrf_exempt
     def create(self, request, station_id, valve_id):
         try:
             SteeringUser.objects.get(user=request.user, station_id=station_id)
@@ -131,6 +134,7 @@ class ContainerStateViewSet(viewsets.ReadOnlyModelViewSet):
                                              container__container_id=container_id).order_by(
             "-station_state__timestamp", "-id")
 
+    @csrf_exempt
     def create(self, request, station_id, container_id):
         try:
             SteeringUser.objects.get(user=request.user, station_id=station_id)
@@ -162,6 +166,7 @@ class PumpStateViewSet(viewsets.ReadOnlyModelViewSet):
         return PumpState.objects.filter(station_state__station_id=station_id, pump__pump_id=pump_id).order_by(
             "-station_state__timestamp", "-id")
 
+    @csrf_exempt
     def create(self, request, station_id, pump_id):
         try:
             SteeringUser.objects.get(user=request.user, station_id=station_id)
@@ -176,6 +181,7 @@ class PumpStateViewSet(viewsets.ReadOnlyModelViewSet):
         return JsonResponse(status=response.status_code, data=response.json(), safe=False)
 
 
+@csrf_exempt
 def receive_water_data(request, station_id):
     if request.method == 'POST':
         try:
@@ -216,7 +222,7 @@ def receive_water_data(request, station_id):
         ValveState.objects.bulk_create(
             ValveState(
                 valve=Valve.objects.get(station_id=station_id, valve_id=valve["valve_id"]),
-                valve_open=valve["valve_open"],
+                valve_open=valve["valve_state"],
                 station_state=station_state
             ) for valve in valves
         )
@@ -242,6 +248,7 @@ def receive_water_data(request, station_id):
     return HttpResponseBadRequest()
 
 
+@csrf_exempt
 def get_steering_states(request):
     if request.method == 'GET':
         return JsonResponse(dict(settings.steering_states))
@@ -249,6 +256,7 @@ def get_steering_states(request):
     return HttpResponseBadRequest()
 
 
+@csrf_exempt
 def automatic(request, station_id):
     if request.method == "POST":
         station_url = settings.STATIONS_URLS[station_id]
@@ -258,6 +266,7 @@ def automatic(request, station_id):
     return HttpResponseBadRequest()
 
 
+@csrf_exempt
 def config(request, station_id):
     station_url = settings.STATIONS_URLS[station_id]
 

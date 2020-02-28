@@ -136,5 +136,5 @@ steering_states = (
 )
 
 STATIONS_URLS = {
-    1: "localhost:8000"
+    "1": "http://localhost:8080"
 }

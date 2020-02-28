@@ -270,8 +270,9 @@ def get_steering_states(request):
 def automatic(request, station_id):
     if request.method == "POST":
         station_url = settings.STATIONS_URLS[station_id]
-        response = requests.post(f"{station_url}/automatic/", data=request.body)
-        return HttpResponse(response.text, status=response.status_code)
+        response = requests.post(f"{station_url}/automatic/", data=request.body,
+                                 headers="Content-type: application/json")
+        return HttpResponse(content=response.content, status=response.status_code)
 
     return HttpResponseBadRequest()
 
@@ -282,8 +283,8 @@ def config(request, station_id):
 
     if request.method == "GET":
         response = requests.get(f"{station_url}/config/")
-        return JsonResponse(response.json, status=response.status_code)
+        return HttpResponse(content=response.content, status=response.status_code)
 
     elif request.method == "PUT":
-        response = requests.put(f"{station_url}/config/", data=request.body)
-        return JsonResponse(response.json, status=response.status_code)
+        response = requests.put(f"{station_url}/config/", data=request.body, headers="Content-type: application/json")
+        return HttpResponse(content=response.content, status=response.status_code)

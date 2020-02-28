@@ -256,3 +256,15 @@ def automatic(request, station_id):
         return HttpResponse(response.text, status=response.status_code)
 
     return HttpResponseBadRequest()
+
+
+def config(request, station_id):
+    station_url = settings.STATIONS_URLS[station_id]
+
+    if request.method == "GET":
+        response = requests.get(f"{station_url}/config/")
+        return JsonResponse(response.json, status=response.status_code)
+
+    elif request.method == "PUT":
+        response = requests.put(f"{station_url}/config/", data=request.data)
+        return JsonResponse(response.json, status=response.status_code)

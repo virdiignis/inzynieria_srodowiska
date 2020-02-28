@@ -47,5 +47,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('water/<int:station_id>/stats/', views.receive_water_data),
     path('water/<int:station_id>/automatic/', views.automatic),
+    path('water/<int:station_id>/config/', views.config),
     path('steering_states/', views.get_steering_states),
 ]
